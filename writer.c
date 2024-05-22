@@ -2,7 +2,7 @@
 #include <stdlib.h>		// malloc()
 #include <string.h>		// memcpy(), strcpy(), strcmp()
 #include <unistd.h>		// sleep()
-#include <sys/shm.h>	// shmget, shmat
+#include <sys/shm.h>	// shmget(), shmat(), shmdt(), shmctl()
 
 #define true 1
 #define false 0
@@ -50,6 +50,12 @@ int main(void) {
 
 		sleep(1);
 		printf("%s: the other process didn't get message yet\n", __func__);
+	}
+	
+	shmdt(shm_addr);
+	if (shmctl(shm_id, IPC_RMID, 0) == -1) {
+		printf("%s: failed to remove shared memory\n", __func__);
+		return 0;
 	}
 
 	return 0;

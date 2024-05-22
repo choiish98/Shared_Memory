@@ -2,7 +2,7 @@
 #include <stdlib.h>		// malloc()
 #include <string.h>		// memcpy(), strcpy(), strcmp()
 #include <unistd.h>		// sleep()
-#include <sys/shm.h>	// shmget, shmat
+#include <sys/shm.h>	// shmget(), shmat()
 
 #define true 1
 #define false 0
@@ -16,7 +16,7 @@ int main(void) {
 	void *shm_addr;
 	char *msg;
 
-	shm_id = shmget((key_t) KEY_NUM, MEM_SIZE, IPC_CREAT | 0666);
+	shm_id = shmget((key_t) KEY_NUM, MEM_SIZE, IPC_EXCL | 0666);
 	if (shm_id == -1) {
 		printf("%s: failed to get shared memory \n", __func__);
 		return 0;
